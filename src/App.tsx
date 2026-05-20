@@ -597,6 +597,14 @@ function ImagePage({ go }: { go: (p: Page) => void }) {
         </p>
       </div>
       <ImageCaseSections />
+      <FeatureRow
+        items={[
+          ["产品能力", "把生图流程拆成灵感、风格、参数、确认和结果页"],
+          ["提示词能力", "29 种艺术风格、14 项基础参数、22 项高级参数、25 项反向提示词"],
+          ["多端能力", "Web / App / 小程序 / 扣子 Skill 多入口承接"],
+          ["工程能力", "React/Vite、图像生成 API、前端 API Key 配置、移动端适配"],
+        ]}
+      />
       <div className="button-row">
         <a className="external-btn" href={links.image} target="_blank" rel="noreferrer">
           访问生图网站 <ExternalLink size={18} />
