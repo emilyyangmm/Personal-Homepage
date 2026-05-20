@@ -17,13 +17,15 @@ import {
 
 type Page = "home" | "projects" | "procurement" | "image" | "digital" | "proof" | "contact";
 
+const asset = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
+
 const links = {
   procurement:
     "https://dichan001-d4gmwndh054e1b76e-1428943693.tcloudbaseapp.com/dichan003/",
   image:
     "https://dichan001-d4gmwndh054e1b76e-1428943693.ap-shanghai.app.tcloudbase.com/",
   digital: "https://xuehui-rewrite.zh-cn.edgeone.cool/invite",
-  resume: "/assets/yang-wenxin-ai-project-manager-resume.pdf",
+  resume: asset("/assets/yang-wenxin-ai-project-manager-resume.pdf"),
 };
 
 const backgroundTimeline = [
@@ -93,7 +95,7 @@ const projectCards = [
     no: "01",
     title: "喵喵小仙儿 AI 生图（TOC）",
     subtitle: "Web / App / 小程序 / 智能体",
-    image: "/assets/cases/image-live/web-01-home.png",
+    image: asset("/assets/cases/image-live/web-01-home.png"),
     desc: "把专业提示词拆成可视化参数，解决普通用户不会写提示词的问题。",
   },
   {
@@ -101,7 +103,7 @@ const projectCards = [
     no: "02",
     title: "数字人智能体（TOC）",
     subtitle: "Web｜短视频生产自动化链路",
-    image: "/assets/cases/digital/demo-frame-02.jpg",
+    image: asset("/assets/cases/digital/demo-frame-02.jpg"),
     desc: "从素材提取、文案改写到数字人生成和字幕合成，完成项目交付。",
   },
   {
@@ -109,7 +111,7 @@ const projectCards = [
     no: "03",
     title: "招采宝 Pro（TOB）",
     subtitle: "Web｜地产招采成本 AI 工作台",
-    image: "/assets/live/procurement-click-test.png",
+    image: asset("/assets/live/procurement-click-test.png"),
     desc: "围绕地产招采、成本和合约管理搭建的全流程业务系统。",
   },
 ];
@@ -194,7 +196,7 @@ function HomePage({ go }: { go: (p: Page) => void }) {
         </div>
 
         <aside className="profile-photo-card">
-          <img src="/assets/profile-photo.jpg" alt="杨文新形象照片" />
+          <img src={asset("/assets/profile-photo.jpg")} alt="杨文新形象照片" />
         </aside>
       </div>
 
@@ -346,11 +348,11 @@ function ProcurementOverview() {
       </div>
       <div className="overview-shots">
         {[
-          ["网站主页", "/assets/cases/procurement/live-homepage.png"],
-          ["工作台模块", "/assets/cases/procurement/real/home-workbench-sharp.png"],
-          ["专业知识库", "/assets/cases/procurement/real/knowledge-base-sharp.png"],
-          ["规划向导", "/assets/cases/procurement/planning-wizard-2x.png"],
-          ["规划报告", "/assets/procurement/real/planning-report.png"],
+          ["网站主页", asset("/assets/cases/procurement/live-homepage.png")],
+          ["工作台模块", asset("/assets/cases/procurement/real/home-workbench-sharp.png")],
+          ["专业知识库", asset("/assets/cases/procurement/real/knowledge-base-sharp.png")],
+          ["规划向导", asset("/assets/cases/procurement/planning-wizard-2x.png")],
+          ["规划报告", asset("/assets/procurement/real/planning-report.png")],
         ].map(([title, image]) => (
           <figure key={title}>
             <figcaption>{title}</figcaption>
@@ -365,7 +367,7 @@ function ProcurementOverview() {
 function ProcurementCaseSections() {
   const sections = [
     {
-      image: "/assets/cases/procurement/live-homepage.png",
+      image: asset("/assets/cases/procurement/live-homepage.png"),
       screenshot: "网站主页",
       title: "01｜网站主页：产品定位与系统入口",
       eyebrow: "Homepage",
@@ -373,7 +375,7 @@ function ProcurementCaseSections() {
         "面向地产招采采购场景，首页说明产品定位、核心能力、六大招采模块和知识库能力，并提供登录、注册和创建项目入口。",
     },
     {
-      image: "/assets/cases/procurement/real/home-workbench-sharp.png",
+      image: asset("/assets/cases/procurement/real/home-workbench-sharp.png"),
       screenshot: "工作台模块",
       title: "02｜工作台：六个核心业务入口",
       eyebrow: "Workbench",
@@ -381,7 +383,7 @@ function ProcurementCaseSections() {
         "工作台把日常招采动作集中到一个页面：合约规划、供应商管理、招标文件、对标定标、招采档案、合同签署，入口清楚，适合持续处理项目。",
     },
     {
-      image: "/assets/procurement/real/planning-report.png",
+      image: asset("/assets/procurement/real/planning-report.png"),
       screenshot: "合约规划报告",
       title: "03｜合约规划：从项目信息生成规划报告",
       eyebrow: "Contract Planning",
@@ -389,7 +391,7 @@ function ProcurementCaseSections() {
         "以“锦绣华庭（二期）”为演示项目，系统保存项目面积、开工日期、目标成本、标段划分等信息，并生成合约规划报告，可继续导出 Word。",
     },
     {
-      image: "/assets/cases/procurement/real/knowledge-base-sharp.png",
+      image: asset("/assets/cases/procurement/real/knowledge-base-sharp.png"),
       screenshot: "专业知识库",
       title: "04｜知识库：工程资料与模板沉淀",
       eyebrow: "Knowledge Base",
@@ -397,7 +399,7 @@ function ProcurementCaseSections() {
         "知识库核心沉淀各专业工程的工作内容、界面划分、成本指标、合同范本和甲供材推荐，用来支撑合约规划、招标文件和合同生成。",
     },
     {
-      image: "/assets/cases/procurement/real/tender-documents-live.png",
+      image: asset("/assets/cases/procurement/real/tender-documents-live.png"),
       screenshot: "招标文件包",
       title: "05｜招标文件：生成标准标书和投标模板",
       eyebrow: "Tender Documents",
@@ -405,7 +407,7 @@ function ProcurementCaseSections() {
         "按合约包生成招标文件、投标报价书模板、合同协议书、工程量清单和设计图纸清单，并可维护付款比例、履约保证金、评标方法等商务变量。",
     },
     {
-      image: "/assets/cases/procurement/real/bid-award-live.png",
+      image: asset("/assets/cases/procurement/real/bid-award-live.png"),
       screenshot: "对标定标",
       title: "06｜对标定标：报价比对与定标结果",
       eyebrow: "Bid Award",
@@ -413,7 +415,7 @@ function ProcurementCaseSections() {
         "支持 AI 对标：对已回标合约包进行价格、工期、履约保证金、特殊条款等横向对比，辅助识别报价差异和风险点，形成定标信息后承接到合同签署页面。",
     },
     {
-      image: "/assets/cases/procurement/real/procurement-archive-live.png",
+      image: asset("/assets/cases/procurement/real/procurement-archive-live.png"),
       screenshot: "招采档案",
       title: "07｜招采档案：过程文件归档",
       eyebrow: "Archive",
@@ -421,7 +423,7 @@ function ProcurementCaseSections() {
         "按合约包归档招标邀请函、答疑澄清、开标签到、谈判纪要、交底记录等文件，让招采过程有记录可追溯。",
     },
     {
-      image: "/assets/cases/procurement/real/contract-signing-live.png",
+      image: asset("/assets/cases/procurement/real/contract-signing-live.png"),
       screenshot: "合同签署",
       title: "08｜合同签署：合同正文、附件和盖章版回传",
       eyebrow: "Contract Signing",
@@ -606,21 +608,21 @@ function ImagePage({ go }: { go: (p: Page) => void }) {
 
 function ImageCaseSections() {
   const webSteps = [
-    ["/assets/cases/image-live/web-01-home.png", "01｜品牌首页", "品牌首页负责建立产品识别，提供开始创作和历史记录入口。"],
-    ["/assets/cases/image-live/web-02-inspiration.png", "02｜灵感描述 / API 配置", "顶部配置平台、模型和 API Key；主体输入画面描述，也可以上传参考图进入图生图流程。"],
-    ["/assets/cases/image-live/web-03-style-real.png", "03｜艺术风格", "提供 29 种艺术风格选择，支持用户自定义风格方向。"],
-    ["/assets/cases/image-live/web-04-advanced-real.png", "04｜参数设置", "14 项基本参数、22 项高级参数、25 项反向提示词分层配置，并提供可视化预览。"],
-    ["/assets/cases/image-live/web-05-review-real.png", "05｜生成确认", "生成前回看画面描述、参考图片、风格、基础参数、高级特效和反向提示词。"],
-    ["/assets/cases/image-live/web-06-result-real.png", "06｜生成结果示例", "真实生成页截图，能看到配置回顾和由智能体生成的结果图。"],
+    [asset("/assets/cases/image-live/web-01-home.png"), "01｜品牌首页", "品牌首页负责建立产品识别，提供开始创作和历史记录入口。"],
+    [asset("/assets/cases/image-live/web-02-inspiration.png"), "02｜灵感描述 / API 配置", "顶部配置平台、模型和 API Key；主体输入画面描述，也可以上传参考图进入图生图流程。"],
+    [asset("/assets/cases/image-live/web-03-style-real.png"), "03｜艺术风格", "提供 29 种艺术风格选择，支持用户自定义风格方向。"],
+    [asset("/assets/cases/image-live/web-04-advanced-real.png"), "04｜参数设置", "14 项基本参数、22 项高级参数、25 项反向提示词分层配置，并提供可视化预览。"],
+    [asset("/assets/cases/image-live/web-05-review-real.png"), "05｜生成确认", "生成前回看画面描述、参考图片、风格、基础参数、高级特效和反向提示词。"],
+    [asset("/assets/cases/image-live/web-06-result-real.png"), "06｜生成结果示例", "真实生成页截图，能看到配置回顾和由智能体生成的结果图。"],
   ];
 
   const appSteps = [
-    ["/assets/cases/image/app-home.png", "App 首页"],
-    ["/assets/cases/image/app-inspiration.png", "灵感描述"],
-    ["/assets/cases/image/app-style.png", "风格选择"],
-    ["/assets/cases/image/app-params.png", "参数调整"],
-    ["/assets/cases/image/app-generate.png", "生成前确认"],
-    ["/assets/cases/image/app-result.png", "生成结果"],
+    [asset("/assets/cases/image/app-home.png"), "App 首页"],
+    [asset("/assets/cases/image/app-inspiration.png"), "灵感描述"],
+    [asset("/assets/cases/image/app-style.png"), "风格选择"],
+    [asset("/assets/cases/image/app-params.png"), "参数调整"],
+    [asset("/assets/cases/image/app-generate.png"), "生成前确认"],
+    [asset("/assets/cases/image/app-result.png"), "生成结果"],
   ];
 
   return (
@@ -666,11 +668,11 @@ function ImageCaseSections() {
         </div>
         <div className="skill-shot-grid">
           <figure>
-            <img src="/assets/cases/image/skill-coze.png" alt="喵喵小仙儿 Skill 端页面" />
+            <img src={asset("/assets/cases/image/skill-coze.png")} alt="喵喵小仙儿 Skill 端页面" />
             <figcaption>Skill 端：提示词生成工具入口</figcaption>
           </figure>
           <figure>
-            <img src="/assets/cases/image/mini-program.png" alt="喵喵小仙儿小程序端页面" />
+            <img src={asset("/assets/cases/image/mini-program.png")} alt="喵喵小仙儿小程序端页面" />
             <figcaption>小程序端：移动端产品入口</figcaption>
           </figure>
         </div>
@@ -695,7 +697,7 @@ function DigitalPage({ go }: { go: (p: Page) => void }) {
       </section>
       <figure className="digital-demo">
         <figcaption>使用教程 Demo：演示从素材输入、脚本生成到数字人口播视频合成的完整操作流程</figcaption>
-        <video src="/assets/digital-human-demo.mp4" poster="/assets/digital/poster.jpg" controls />
+        <video src={asset("/assets/digital-human-demo.mp4")} poster={asset("/assets/digital/poster.jpg")} controls />
       </figure>
       <DigitalCaseSections />
       <FeatureRow
@@ -732,7 +734,7 @@ function DigitalCaseSections() {
         </div>
         <figure>
           <figcaption>数字人智能体核心页面</figcaption>
-          <img src="/assets/cases/digital/demo-frame-02.jpg" alt="数字人智能体核心工作台页面" />
+          <img src={asset("/assets/cases/digital/demo-frame-02.jpg")} alt="数字人智能体核心工作台页面" />
         </figure>
       </article>
     </section>
@@ -741,10 +743,10 @@ function DigitalCaseSections() {
 
 function ProofPage() {
   const cards = [
-    [Award, "一级造价工程师", "工程成本、合约、结算与风险控制资质", "/assets/proofs/cost-engineer.jpg"],
-    [ShieldCheck, "二级建造师", "市政方向，工程实施和项目管理基础", "/assets/proofs/builder.jpg"],
-    [BadgeCheck, "建筑经济管理专科", "郑州大学（211），2007 - 2010 全日制专科", "/assets/proofs/college.jpg"],
-    [BadgeCheck, "工程管理本科", "广州大学，2019 - 2022 在职就读", "/assets/proofs/bachelor.jpg"],
+    [Award, "一级造价工程师", "工程成本、合约、结算与风险控制资质", asset("/assets/proofs/cost-engineer.jpg")],
+    [ShieldCheck, "二级建造师", "市政方向，工程实施和项目管理基础", asset("/assets/proofs/builder.jpg")],
+    [BadgeCheck, "建筑经济管理专科", "郑州大学（211），2007 - 2010 全日制专科", asset("/assets/proofs/college.jpg")],
+    [BadgeCheck, "工程管理本科", "广州大学，2019 - 2022 在职就读", asset("/assets/proofs/bachelor.jpg")],
   ] as const;
   return (
     <section className="page-shell">
