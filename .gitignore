@@ -1,0 +1,11 @@
+node_modules/
+dist/
+output/
+tmp/
+miaomiaodaxian/
+.vite/
+*.log
+*.tsbuildinfo
+.env
+.env.*
+!.env.example

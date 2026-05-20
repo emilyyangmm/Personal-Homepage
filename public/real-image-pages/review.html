@@ -1,0 +1,383 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head><base href="http://127.0.0.1:5000/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI绘画智能体 - 专业AI绘画提示词生成器">
+    <title>AI绘画智能体</title>
+    <link rel="stylesheet" href="style.css?v=20260123">
+    <!-- 使用国内CDN替代Font Awesome -->
+    <link rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-y/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <!-- 毛笔字体 - 马善政楷书 -->
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+    <!-- 毛笔字体 - 站酷小薇体 -->
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+    <!-- 毛笔字体 - 站酷庆科黄油体 -->
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+QingKe+HuangYou&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎨</text></svg>">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header" id="mainHeader">
+            <h1><i class="fas fa-robot"></i> AI绘画智能体</h1>
+            <p class="tagline">像大师一样思考，像按快门一样简单</p>
+        </header>
+
+        <section class="api-key-panel" id="apiKeyPanel" aria-label="API Key 设置">
+            <div class="provider-model-row">
+                <div class="select-group">
+                    <label for="providerSelect">平台</label>
+                    <select id="providerSelect">
+                        <option value="siliconflow">硅基流动（有免费额度）</option>
+                        <option value="volcengine">火山方舟（豆包）</option>
+                    </select>
+                </div>
+                <div class="select-group">
+                    <label for="modelSelect">模型</label>
+                    <select id="modelSelect"></select>
+                </div>
+                <div class="select-group" id="customModelGroup" style="display:none">
+                    <label for="customModelInput">接入点 ID</label>
+                    <input id="customModelInput" type="text" placeholder="ep-xxx 或模型名" style="height:36px;padding:0 10px;border:1px solid rgba(139,0,0,0.18);border-radius:4px;font-size:0.88rem;min-width:160px">
+                </div>
+            </div>
+            <div class="api-key-controls">
+                <input id="apiKeyInput" type="password" autocomplete="off" placeholder="请输入 API Key">
+                <button type="button" id="saveApiKeyBtn">保存</button>
+                <button type="button" id="clearApiKeyBtn">清空</button>
+                <button type="button" id="apiHelpBtn" onclick="toggleApiHelp()">如何获取？</button>
+            </div>
+            <div class="api-key-status" id="apiKeyStatus">未填写</div>
+            <div class="api-help-box" id="apiHelpBox" style="display:none"></div>
+        </section>
+
+        <!-- 历史记录按钮（右上角固定） -->
+        <button class="history-toggle-btn" id="historyToggleBtn" onclick="toggleHistoryModal()" title="查看历史生成">
+            <svg class="history-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 4V1L8 5L12 9V6C15.31 6 18 8.69 18 12C18 15.31 15.31 18 12 18C8.69 18 6 15.31 6 12H4C4 16.42 7.58 20 12 20C16.42 20 20 16.42 20 12C20 7.58 16.42 4 12 4Z" fill="currentColor"/>
+            </svg>
+            <span class="history-badge" id="historyBadge" style="display: none;">0</span>
+        </button>
+
+        <!-- 进度条 -->
+        <div class="progress-container" id="mainProgress">
+            <div class="progress-bar" id="progressBar"></div>
+            <div class="steps">
+                <span class="step active" data-step="1"><i class="fas fa-lightbulb"></i> 灵感</span>
+                <span class="step" data-step="2"><i class="fas fa-palette"></i> 风格</span>
+                <span class="step" data-step="3"><i class="fas fa-sliders-h"></i> 参数</span>
+                <span class="step" data-step="4"><i class="fas fa-magic"></i> 生成</span>
+            </div>
+        </div>
+
+        <!-- 步骤内容 -->
+        <div class="steps-container">
+            <!-- 步骤0: 欢迎页面 -->
+            <div class="step-content active" id="step0">
+                <div class="welcome-page">
+                    <div class="welcome-content">
+                        <div class="welcome-logo">
+                            <img src="assets/logo.png" alt="Logo" />
+                        </div>
+                        <h1 class="welcome-title">AI绘画智能体</h1>
+                        <p class="welcome-subtitle">像大师一样思考，像按快门一样简单</p>
+                        <button class="btn-start" onclick="startCreation()">
+                            开始创作
+                        </button>
+                        <div class="welcome-footer">
+                            <span class="welcome-producer">出品人：喵喵小仙儿</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 步骤1: 灵感与参考图 -->
+            <div class="step-content" id="step1">
+                <h2><i class="fas fa-lightbulb"></i> 第一步：描绘灵感</h2>
+                <p class="step-desc">详细描述你脑海中的画面，或者上传参考图实现图生图效果。</p>
+
+                <div class="input-area">
+                    <label class="input-label">
+                        <i class="fas fa-pen"></i> 画面描述
+                        <span class="hint-text">例如：一位身穿星空长袍的精灵法师，站在远古森林中，高举法杖...</span>
+                    </label>
+                    <textarea id="promptInput" rows="6" placeholder=""></textarea>
+                </div>
+
+                <div class="upload-area">
+                    <label class="input-label">
+                        <i class="fas fa-image"></i> 参考图上传（可选，支持多张）
+                        <span class="hint-text">支持JPG/PNG/WEBP格式，单张不超过10MB，最多3张</span>
+                    </label>
+                    <div class="upload-box" id="uploadBox">
+                        <div class="upload-placeholder" id="uploadPlaceholder">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>点击或拖拽上传参考图（支持多张）</p>
+                            <p class="upload-hint">将参考图的人脸应用到生成结果中</p>
+                        </div>
+                        <div class="preview-grid" id="previewGrid" style="display: none;"></div>
+                        <input type="file" id="referenceImage" accept="image/jpeg,image/png,image/webp" multiple style="display: none;">
+                        <button class="btn-remove" id="removeImage" style="display: none;">
+                            <i class="fas fa-times"></i> 清空所有
+                        </button>
+                        <div class="upload-error" id="uploadError" style="display: none;"></div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-next" onclick="nextStep()">
+                        下一步：选择风格 <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 步骤2: 选择风格（按大类分类） -->
+            <div class="step-content" id="step2">
+                <h2><i class="fas fa-palette"></i> 第二步：选择艺术风格</h2>
+                <p class="step-desc">按大类选择最能表达你画面情感的艺术风格（23种精选）</p>
+
+                <!-- 风格分类选项卡 -->
+                <div class="category-tabs" id="styleCategoryTabs">
+                    <!-- 由JS动态生成 -->
+                </div>
+
+                <!-- 风格选项网格 -->
+                <div class="options-grid style-grid" id="styleOptionsContainer">
+                    <!-- 风格卡片由JS动态生成 -->
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-prev" onclick="prevStep()">
+                        <i class="fas fa-arrow-left"></i> 上一步
+                    </button>
+                    <button class="btn-next" onclick="nextStep()">
+                        下一步：调整参数 <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 步骤3: 参数设置（基本参数 + 高级特效 Tab切换） -->
+            <div class="step-content" id="step3">
+                <h2><i class="fas fa-sliders-h"></i> 第三步：调整参数</h2>
+                <p class="step-desc">精细化控制画面的各个维度，打造完美作品</p>
+
+                <!-- 参数操作栏 -->
+                <div class="params-toolbar">
+                    <div class="toolbar-left">
+                        <button class="btn-icon" onclick="savePreset()" title="保存参数方案">
+                            <i class="fas fa-save"></i> 保存方案
+                        </button>
+                        <button class="btn-icon" onclick="resetParams()" title="重置参数">
+                            <i class="fas fa-undo"></i> 重置
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 参数Tab切换 -->
+                <div class="params-tabs">
+                    <button class="params-tab-btn active" data-tab="basic" onclick="switchParamsTab('basic')">
+                        <i class="fas fa-sliders-h"></i> 基本参数 <span class="param-subtitle">（简易便捷）</span>
+                    </button>
+                    <button class="params-tab-btn" data-tab="advanced" onclick="switchParamsTab('advanced')">
+                        <i class="fas fa-wand-magic-sparkles"></i> 高级特效 <span class="param-subtitle">（高玩必选）</span>
+                    </button>
+                    <button class="params-tab-btn" data-tab="negative" onclick="switchParamsTab('negative')">
+                        <i class="fas fa-ban"></i> 反向提示词
+                    </button>
+                </div>
+
+                <!-- 已选风格提示（第三步共用，始终显示） -->
+                <div class="param-card">
+                    <h3><i class="fas fa-image"></i> 已选风格</h3>
+                    <div class="selected-style-display" id="selectedStyleDisplay">未选择</div>
+                    <div class="style-recommendation-tip" id="styleRecommendationTip"></div>
+                </div>
+
+                <!-- 基本参数区域（按4个大类组织） -->
+                <div class="params-section" id="basicParamsSection">
+                    <!-- 基础参数分类Tab导航 -->
+                    <div class="basic-category-tabs" id="basicCategoryTabs">
+                        <!-- 由JS动态生成 -->
+                    </div>
+
+                    <!-- 基础参数选项卡片容器 - 根据选中的分类动态显示 -->
+                    <div id="basicParamsContainer">
+                        <!-- 由JS动态生成 -->
+                    </div>
+                </div>
+
+                <!-- 高级特效区域（22项 - 按4大类组织） -->
+                <div class="params-section" id="advancedParamsSection" style="display: none;">
+                    <!-- 高级特效分类Tab导航 -->
+                    <div class="advanced-category-tabs" id="advancedCategoryTabs">
+                        <!-- 由JS动态生成 -->
+                    </div>
+
+                    <!-- 高级特效选项卡片容器 - 根据选中的分类动态显示 -->
+                    <div id="advancedParamsContainer">
+                        <!-- 由JS动态生成 -->
+                    </div>
+                </div>
+
+                <!-- 反向提示词区域 -->
+                <div class="params-section" id="negativeParamsSection">
+                    <div class="param-card">
+                        <h3><i class="fas fa-ban"></i> 负面提示词</h3>
+                        <p class="param-desc">选择不希望在画面中出现的内容（支持多选）</p>
+                        <div class="compact-grid" id="negativeContainer"></div>
+
+                        <!-- 自定义反向提示词输入框 -->
+                        <div class="custom-input-area" id="customNegativeArea" style="display: none; margin-top: 20px;">
+                            <label class="input-label">
+                                <i class="fas fa-edit"></i> 自定义负面内容
+                                <span class="hint-text">用逗号分隔多个关键词，例如：猫,狗,汽车</span>
+                            </label>
+                            <textarea id="customNegativeInput" rows="3" placeholder="输入你不想出现的元素..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-prev" onclick="prevStep()">
+                        <i class="fas fa-arrow-left"></i> 上一步
+                    </button>
+                    <button class="btn-next" onclick="nextStep()">
+                        下一步：开始生成 <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 步骤4: 生成结果 -->
+            <div class="step-content" id="step4">
+                <h2><i class="fas fa-magic"></i> 第四步：生成结果</h2>
+                <p class="step-desc">查看AI为您创作的作品</p>
+
+                <!-- 参数回顾区域 -->
+                <div class="review-container" id="reviewContainer">
+                    <h3><i class="fas fa-clipboard-list"></i> 配置回顾</h3>
+                    <div class="review-content" id="reviewContent">
+                        <!-- 由JS动态生成 -->
+                    </div>
+                </div>
+
+                <!-- 生成按钮区域 -->
+                <div class="generate-section">
+                    <button class="btn-generate" id="generateBtn" onclick="generateImage()">
+                        <span class="btn-generate-icon"><i class="fas fa-bolt"></i></span>
+                        <span class="btn-generate-text">开始生成</span>
+                    </button>
+                </div>
+
+                <!-- 加载指示器 -->
+                <div class="loading-indicator" id="loadingIndicator" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <p class="loading-text">AI画师创作中，请稍候，预计30秒完成。</p>
+                </div>
+
+                <!-- 错误信息区域 -->
+                <div class="error-section" id="errorSection" style="display: none;">
+                    <h3 id="errorTitle"><i class="fas fa-exclamation-triangle"></i> 生成失败</h3>
+                    <p id="errorMessage"></p>
+                    <button class="btn-retry" onclick="generateImage()">
+                        <i class="fas fa-redo"></i> 重试
+                    </button>
+                </div>
+
+                <!-- 结果区域 -->
+                <div class="result-section" id="resultSection" style="display: none;">
+                    <div class="result-image-container">
+                        <img id="generatedImage" src="" alt="AI生成的图片">
+                    </div>
+
+                    <!-- 提示词显示 -->
+                    <div class="prompt-display" id="promptDisplay" style="display: none;">
+                        <h3><i class="fas fa-lightbulb"></i> 完整提示词</h3>
+                        <textarea id="fullPromptText" readonly></textarea>
+                        <button class="btn-copy" onclick="copyPrompt()">
+                            <i class="fas fa-copy"></i> 复制
+                        </button>
+                    </div>
+
+                    <!-- 分享区域 -->
+                    <div class="share-section" id="shareSection" style="display: none;">
+                        <h3><i class="fas fa-share-alt"></i> 分享作品</h3>
+                        <div class="share-buttons">
+                            <button class="btn-share" onclick="downloadImage()" title="下载图片">
+                                <i class="fas fa-download"></i> 下载
+                            </button>
+                            <button class="btn-share" onclick="shareToWeibo()" title="分享到微博">
+                                <i class="fab fa-weibo"></i> 微博
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn-back" onclick="backToGenerate()">
+                            <i class="fas fa-arrow-left"></i> 返回生成
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 历史记录模态框 -->
+        <div class="modal" id="historyModal" style="display: none;">
+            <div class="modal-content history-modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-history"></i> 历史记录</h3>
+                    <div class="modal-header-actions">
+                        <button class="modal-action-btn" onclick="clearInvalidHistory()" title="清理失效的记录">
+                            <i class="fas fa-broom"></i> 清理失效
+                        </button>
+                        <button class="modal-close" onclick="closeHistoryModal()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="history-modal-list" id="historyModalList">
+                        <!-- 由JS动态生成 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="api-client.js?v=20260125"></script>
+    <script src="script.js?v=20260125"></script>
+<script>
+function portfolioSetupBase() {
+  const prompt = '黑白木刻版画风格的人物肖像，中心女性角色，两侧人物剪影，高反差线刻纹理，纸张颗粒质感，复古插画构图';
+  const input = document.getElementById('promptInput');
+  if (input) input.value = prompt;
+  currentStyleCategory = 'classic';
+  selectedStyle = 'style_13';
+  recommendedParamIds = styleRecommendations[selectedStyle] || [];
+  applyRecommendedParams(recommendedParamIds);
+  initializeStyleCategories();
+  initializeStyles();
+  updateSelectedStyleDisplay();
+}
+function portfolioSelectAdvanced() {
+  switchParamsTab('advanced');
+  renderAdvancedParams();
+  const options = Array.from(document.querySelectorAll('#advancedParamsSection .compact-option')).filter(el => !el.dataset.id.endsWith('_custom'));
+  options.slice(0, 6).forEach(el => el.click());
+}
+function portfolioSelectNegative() {
+  switchParamsTab('negative');
+  initializeNegativeParams();
+  Array.from(document.querySelectorAll('#negativeParamsContainer .compact-option')).slice(0, 4).forEach(el => el.click());
+}
+</script><script>
+window.addEventListener('load', () => setTimeout(() => {
+  portfolioSetupBase();
+  currentStep = 3; updateStep(); updateProgress();
+  portfolioSelectAdvanced(); portfolioSelectNegative();
+  currentStep = 4; updateStep(); updateProgress();
+  window.scrollTo(0, 0);
+}, 900));
+</script></body>
+</html>
+
