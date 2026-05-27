@@ -87,6 +87,11 @@ const aiTimeline = [
     title: "地产招采平台完成",
     text: "形成合约规划、供应商、招标文件、对标定标、招采档案、合同签署的完整业务闭环。",
   },
+  {
+    date: "2026.05.26",
+    title: "生图软件著作权登记",
+    text: "喵喵小仙儿AI生图软件 V1.0 已获计算机软件著作权登记，登记号 2026SR0621658。",
+  },
 ];
 
 const projectCards = [
@@ -204,7 +209,7 @@ function HomePage({ go }: { go: (p: Page) => void }) {
         {[
           ["2010", "开始进入工程与地产相关行业"],
           ["15年", "地产建筑行业经验"],
-          ["2本", "一级造价师 / 二建市政"],
+          ["3项", "一级造价师 / 二建市政 / 软件著作权"],
           ["5个月", "完成 3 个可访问 AI 产品"],
           ["3个", "核心 AI 产品作品"],
           ["4端", "Web / App / 小程序 / 智能体"],
@@ -602,6 +607,7 @@ function ImagePage({ go }: { go: (p: Page) => void }) {
           ["产品能力", "把生图流程拆成灵感、风格、参数、确认和结果页"],
           ["提示词能力", "29 种艺术风格、14 项基础参数、22 项高级参数、25 项反向提示词"],
           ["多端能力", "Web / App / 小程序 / 扣子 Skill 多入口承接"],
+          ["版权成果", "喵喵小仙儿AI生图软件 V1.0 已获软著登记，登记号 2026SR0621658"],
           ["工程能力", "React/Vite、图像生成 API、前端 API Key 配置、移动端适配"],
         ]}
       />
@@ -753,6 +759,7 @@ function ProofPage() {
   const cards = [
     [Award, "一级造价工程师", "工程成本、合约、结算与风险控制资质", asset("/assets/proofs/cost-engineer.jpg")],
     [ShieldCheck, "二级建造师", "市政方向，工程实施和项目管理基础", asset("/assets/proofs/builder.jpg")],
+    [FileText, "AI 生图软件著作权", "喵喵小仙儿AI生图软件 V1.0，登记号 2026SR0621658", asset("/assets/proofs/software-copyright.jpg")],
     [BadgeCheck, "建筑经济管理专科", "郑州大学（211），2007 - 2010 全日制专科", asset("/assets/proofs/college.jpg")],
     [BadgeCheck, "工程管理本科", "广州大学，2019 - 2022 在职就读", asset("/assets/proofs/bachelor.jpg")],
   ] as const;
