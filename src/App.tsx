@@ -209,7 +209,7 @@ function HomePage({ go }: { go: (p: Page) => void }) {
         {[
           ["2010", "开始进入工程与地产相关行业"],
           ["15年", "地产建筑行业经验"],
-          ["4项", "一级造价师 / 二建市政 / 软著 / WQ量化"],
+          ["5项", "一级造价师 / 二建 / 初级职称 / 软著 / WQ"],
           ["5个月", "完成 3 个可访问 AI 产品"],
           ["3个", "核心 AI 产品作品"],
           ["4端", "Web / App / 小程序 / 智能体"],
@@ -759,6 +759,7 @@ function ProofPage() {
   const cards = [
     [Award, "一级造价工程师", "工程成本、合约、结算与风险控制资质", asset("/assets/proofs/cost-engineer.jpg")],
     [ShieldCheck, "二级建造师", "市政方向，工程实施和项目管理基础", asset("/assets/proofs/builder.jpg")],
+    [BadgeCheck, "助理工程师职称", "建筑工程造价专业，助理级初级职称", asset("/assets/proofs/assistant-engineer.jpg")],
     [FileText, "AI 生图软件著作权", "喵喵小仙儿AI生图软件 V1.0，登记号 2026SR0621658", asset("/assets/proofs/software-copyright.jpg")],
     [BadgeCheck, "WorldQuant IQC 2026", "Stage 1 全球前 20% 团队，量化金融竞赛阶段成绩", asset("/assets/proofs/worldquant-iqc2026-stage1.jpg")],
     [BadgeCheck, "建筑经济管理专科", "郑州大学（211），2007 - 2010 全日制专科", asset("/assets/proofs/college.jpg")],
