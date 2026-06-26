@@ -135,7 +135,7 @@ const projectCards = [
     no: "04",
     title: "GEO Studio（TOB / 内容增长）",
     subtitle: "Web｜生成式引擎优化工作台",
-    image: asset("/assets/cases/geo/home.png"),
+    image: asset("/assets/cases/geo/home-20260626.png"),
     desc: "围绕 AI 搜索与内容分发，生成选题、文章和多平台发布素材。",
   },
   {
@@ -842,7 +842,7 @@ function GeoPage({ go }: { go: (page: Page) => void }) {
         <article className="case-section">
           <figure className="case-figure">
             <figcaption>GEO Studio 工作台首页</figcaption>
-            <img src={asset("/assets/cases/geo/home.png")} alt="GEO Studio 工作台首页" />
+            <img src={asset("/assets/cases/geo/home-20260626.png")} alt="GEO Studio 工作台首页" />
           </figure>
           <div className="case-copy">
             <span>GEO / AI Search</span>
@@ -854,12 +854,18 @@ function GeoPage({ go }: { go: (page: Page) => void }) {
           </div>
         </article>
 
-        <section className="step-grid geo-step-grid">
+        <section className="geo-flow-list">
           {cases.map((item) => (
-            <article key={item.title}>
-              <img src={asset(item.image)} alt={`GEO Studio ${item.title}`} />
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
+            <article className="case-section geo-flow-item" key={item.title}>
+              <figure className="case-figure">
+                <figcaption>{item.title}</figcaption>
+                <img src={asset(item.image)} alt={`GEO Studio ${item.title}`} />
+              </figure>
+              <div className="case-copy">
+                <span>{item.eyebrow}</span>
+                <h2>{item.title}</h2>
+                <p>{item.text}</p>
+              </div>
             </article>
           ))}
         </section>

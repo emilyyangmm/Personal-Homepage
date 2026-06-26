@@ -1095,6 +1095,23 @@ a {
   grid-template-columns: 1fr;
 }
 
+.geo-flow-list {
+  display: grid;
+  gap: 26px;
+}
+
+.geo-flow-item .case-copy {
+  grid-template-columns: minmax(0, 0.7fr) minmax(320px, 0.55fr);
+}
+
+.geo-flow-item .case-copy h2 {
+  font-size: clamp(28px, 3vw, 40px);
+}
+
+.geo-flow-item .case-figure img {
+  background: #f7f4e9;
+}
+
 .step-grid article,
 .phone-strip article,
 .frame-grid article {
@@ -1829,7 +1846,8 @@ a {
   .section-heading,
   .overview-copy,
   .timeline article,
-  .case-copy {
+  .case-copy,
+  .geo-flow-item .case-copy {
     grid-template-columns: 1fr;
     gap: 10px;
   }
