@@ -15,17 +15,18 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
-type Page = "home" | "projects" | "procurement" | "image" | "digital" | "proof" | "contact";
+type Page = "home" | "projects" | "procurement" | "image" | "digital" | "geo" | "wechat" | "proof" | "contact";
 
 const asset = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
 
 const links = {
-  procurement:
-    "https://dichan001-d4gmwndh054e1b76e-1428943693.tcloudbaseapp.com/dichan003/",
-  image:
-    "https://dichan001-d4gmwndh054e1b76e-1428943693.ap-shanghai.app.tcloudbase.com/",
-  digital: "https://xuehui-rewrite.zh-cn.edgeone.cool/invite",
-  resume: asset("/assets/yang-wenxin-ai-project-manager-resume.pdf"),
+  home: "https://www.miaomiaoxiaoxianer.cn/",
+  image: "https://draw.miaomiaoxiaoxianer.cn/",
+  procurement: "https://dichan.miaomiaoxiaoxianer.cn/",
+  digital: "https://miaomiaoxiaoxianer.cn/digital/invite",
+  geo: "https://miaomiaoxiaoxianer.cn/geo/",
+  wechat: "https://miaomiaoxiaoxianer.cn/gongzhonghao/",
+  resume: asset("/assets/杨文新简历2026-6.pdf"),
 };
 
 const backgroundTimeline = [
@@ -46,7 +47,7 @@ const backgroundTimeline = [
   },
   {
     date: "2018 - 今",
-    title: "地产招采 / 成本 / 合约管理",
+    title: "地产招采/成本/合约经理",
     text: "在星河、太东、心域等地产公司负责采购招标、供应商管理、合同范本、法务对接和预算 KPI 体系。",
   },
 ];
@@ -92,6 +93,16 @@ const aiTimeline = [
     title: "生图软件著作权登记",
     text: "喵喵小仙儿AI生图软件 V1.0 已获计算机软件著作权登记，登记号 2026SR0621658。",
   },
+  {
+    date: "2026.06",
+    title: "GEO Studio 完成上线",
+    text: "完成生成式引擎优化工作台，围绕 AI 搜索问题、内容文章和多平台发布素材形成可访问产品。",
+  },
+  {
+    date: "2026.06",
+    title: "公众号排版编辑工具完成",
+    text: "完成公众号文章编辑、排版、预览和发布前整理工具，并接入主域名访问路径。",
+  },
 ];
 
 const projectCards = [
@@ -109,7 +120,7 @@ const projectCards = [
     title: "数字人智能体（TOC）",
     subtitle: "Web｜短视频生产自动化链路",
     image: asset("/assets/cases/digital/demo-frame-02.jpg"),
-    desc: "从素材提取、文案改写到数字人生成和字幕合成，完成项目交付。",
+    desc: "从素材提取、LLM 文案改写到数字人生成和字幕合成，完成项目交付。",
   },
   {
     id: "procurement" as Page,
@@ -118,6 +129,22 @@ const projectCards = [
     subtitle: "Web｜地产招采成本 AI 工作台",
     image: asset("/assets/live/procurement-click-test.png"),
     desc: "围绕地产招采、成本和合约管理搭建的全流程业务系统。",
+  },
+  {
+    id: "geo" as Page,
+    no: "04",
+    title: "GEO Studio（TOB / 内容增长）",
+    subtitle: "Web｜生成式引擎优化工作台",
+    image: asset("/assets/cases/geo/home.png"),
+    desc: "围绕 AI 搜索与内容分发，生成选题、文章和多平台发布素材。",
+  },
+  {
+    id: "wechat" as Page,
+    no: "05",
+    title: "公众号内容智能体（运营工具）",
+    subtitle: "Web｜文章 / 图片 / 视频生成与草稿发布",
+    image: asset("/assets/cases/wechat/food-demo.png"),
+    desc: "从选题、文章、图片、视频生成，到编辑排版和自动发布草稿箱。",
   },
 ];
 
@@ -133,6 +160,10 @@ function App() {
         return <ImagePage go={setPage} />;
       case "digital":
         return <DigitalPage go={setPage} />;
+      case "geo":
+        return <GeoPage go={setPage} />;
+      case "wechat":
+        return <WechatPage go={setPage} />;
       case "proof":
         return <ProofPage />;
       case "contact":
@@ -146,7 +177,19 @@ function App() {
     <main>
       <TopNav page={page} go={setPage} />
       {content}
+      <SiteFooter />
     </main>
+  );
+}
+
+function SiteFooter() {
+  return (
+    <footer className="site-footer">
+      <span>© 2026 杨文新</span>
+      <a href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer">
+        粤ICP备2026013483号
+      </a>
+    </footer>
   );
 }
 
@@ -162,7 +205,7 @@ function TopNav({ page, go }: { page: Page; go: (p: Page) => void }) {
           首页
         </button>
         <button
-          className={["projects", "procurement", "image", "digital"].includes(page) ? "active" : ""}
+          className={["projects", "procurement", "image", "digital", "geo", "wechat"].includes(page) ? "active" : ""}
           onClick={() => go("projects")}
         >
           项目
@@ -210,8 +253,8 @@ function HomePage({ go }: { go: (p: Page) => void }) {
           ["2010", "开始进入工程与地产相关行业"],
           ["15年", "地产建筑行业经验"],
           ["5项", "一级造价师 / 二建 / 初级职称 / 软著 / WQ"],
-          ["5个月", "完成 3 个可访问 AI 产品"],
-          ["3个", "核心 AI 产品作品"],
+          ["5个月", "完成 5 个可访问 AI 产品"],
+          ["5个", "核心 AI 产品作品"],
           ["4端", "Web / App / 小程序 / 智能体"],
         ].map(([value, label]) => (
           <div key={label}>
@@ -227,7 +270,7 @@ function HomePage({ go }: { go: (p: Page) => void }) {
       </section>
 
       <section className="timeline-section">
-        <SectionHeading label="AI Product Timeline" title="三个作品相关里程碑" />
+        <SectionHeading label="AI Product Timeline" title="五个作品相关里程碑" />
         <Timeline items={aiTimeline} compact />
       </section>
 
@@ -286,7 +329,7 @@ function SectionHeading({ label, title }: { label: string; title: string }) {
 function ProjectsPage({ go }: { go: (p: Page) => void }) {
   return (
     <section className="page-shell">
-      <PageTitle kicker="Selected Work" title="三个已完成的 AI 产品项目" />
+      <PageTitle kicker="Selected Work" title="五个已完成的 AI 产品项目" />
       <div className="project-grid">
         {projectCards.map((project) => (
           <article className="project-card" key={project.id} onClick={() => go(project.id)}>
@@ -641,9 +684,13 @@ function ImageCaseSections() {
 
   return (
     <section className="case-stack">
-      <div className="overview-copy">
+      <div className="overview-copy image-flow-brief">
         <span>Web Flow</span>
-        <h2>网页端包含 API 配置、灵感描述、参考图上传、风格选择、参数设置、生成确认和结果展示。</h2>
+        <h2>网页端从 API 配置到结果展示，形成一套完整的生图创作流程。</h2>
+        <p>
+          API 配置、灵感描述、参考图上传、风格选择、参数设置、生成确认和结果展示集中在同一条创作链路里；
+          参数层覆盖 29 种艺术风格、14 项基础参数、22 项高级参数和 25 项反向提示词。
+        </p>
       </div>
       <section className="step-grid web-step-grid">
         {webSteps.map(([image, title, text]) => (
@@ -755,6 +802,133 @@ function DigitalCaseSections() {
   );
 }
 
+
+function GeoPage({ go }: { go: (page: Page) => void }) {
+  const cases = [
+    {
+      eyebrow: "Product Definition",
+      title: "产品定义",
+      text: "先把业务对象、受众、产品卖点和搜索意图写清楚，避免后续内容偏题。",
+      image: "/assets/cases/geo/product-definition.png",
+    },
+    {
+      eyebrow: "Question Map",
+      title: "AI 问题地图",
+      text: "从用户真实搜索问题出发，生成主题问题、追问问题和内容覆盖方向。",
+      image: "/assets/cases/geo/query-map.png",
+    },
+    {
+      eyebrow: "Article Generation",
+      title: "结构化文章",
+      text: "根据问题地图生成文章正文、标题和段落结构，服务 AI 搜索和传统搜索同时收录。",
+      image: "/assets/cases/geo/article-generation.png",
+    },
+    {
+      eyebrow: "Content Export",
+      title: "内容导出",
+      text: "把文章、FAQ、摘要和发布素材整理成可复制、可交付、可继续迭代的内容包。",
+      image: "/assets/cases/geo/content-export.png",
+    },
+  ]
+
+  return (
+    <DetailShell
+      go={go}
+      label="Project 04"
+      title="GEO Studio"
+      subtitle="生成式引擎优化工作台"
+    >
+      <section className="case-stack">
+        <article className="case-section">
+          <figure className="case-figure">
+            <figcaption>GEO Studio 工作台首页</figcaption>
+            <img src={asset("/assets/cases/geo/home.png")} alt="GEO Studio 工作台首页" />
+          </figure>
+          <div className="case-copy">
+            <span>GEO / AI Search</span>
+            <h2>把产品信息整理成 AI 搜索能理解、能引用、能推荐的内容资产。</h2>
+            <p>
+              GEO Studio 面向生成式搜索场景，把产品定义、用户问题地图、结构化文章、FAQ、摘要和发布指引放在同一套流程里，
+              用来提升内容被 AI 搜索识别和引用的概率。
+            </p>
+          </div>
+        </article>
+
+        <section className="step-grid geo-step-grid">
+          {cases.map((item) => (
+            <article key={item.title}>
+              <img src={asset(item.image)} alt={`GEO Studio ${item.title}`} />
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </article>
+          ))}
+        </section>
+
+        <FeatureRow
+          items={[
+            ["产品能力", "产品定义、用户问题拆解、信息架构和内容流程设计"],
+            ["GEO 能力", "AI 搜索问题地图、结构化文章、FAQ 和发布指引"],
+            ["内容能力", "标题、正文、摘要、问答和多平台素材整理"],
+            ["工程能力", "React/Vite、前端工作台、内容导出和静态部署"],
+          ]}
+        />
+
+        <div className="button-row">
+          <a className="primary-btn" href={links.geo} target="_blank" rel="noreferrer">
+            访问 GEO 项目 <ExternalLink size={18} />
+          </a>
+        </div>
+      </section>
+    </DetailShell>
+  )
+}
+function WechatPage({ go }: { go: (p: Page) => void }) {
+  return (
+    <DetailShell go={go} label="Project 05" title="公众号内容智能体" subtitle="文章 / 图片 / 视频生成与草稿发布" compact>
+      <section className="digital-brief wechat-brief">
+        <div>
+          <span>项目描述</span>
+          <h2>把公众号内容生产从“写稿”推进到“生成、配图、排版、入草稿箱”。</h2>
+        </div>
+        <p>
+          面向公众号持续运营场景，输入主题后生成文章、封面图、正文插图和视频素材，再完成编辑排版、预览检查，并推送到微信公众号草稿箱。
+        </p>
+      </section>
+      <section className="case-stack">
+        <article className="digital-single-screen wechat-workflow-card">
+          <div className="case-copy">
+            <span>Agent Workflow</span>
+            <h2>一个页面承接选题、AI 图文生成、素材插入、排版预览和草稿发布。</h2>
+            <p>
+              示例围绕“具有城市烟火气的饮食店”生成内容：左侧输入主题和素材提示词，中间生成文章并管理图片素材，右侧实时预览公众号发布效果。
+            </p>
+            <ul>
+              <li>AI 生成文章、封面图、正文插图和视频素材</li>
+              <li>支持正文编辑、图片插入、样式排版和发布前预览</li>
+              <li>整理后的图文内容可推送到微信公众号草稿箱</li>
+            </ul>
+          </div>
+          <figure>
+            <figcaption>美食主题图文生成与发布预览</figcaption>
+            <img src={asset("/assets/cases/wechat/food-demo.png")} alt="公众号内容智能体美食主题生成、配图和预览页面" />
+          </figure>
+        </article>
+      </section>
+      <FeatureRow
+        items={[
+          ["内容生成", "支持文章、封面图、正文插图和视频素材生成"],
+          ["编辑排版", "支持正文编辑、样式调整、图片插入和发布前预览"],
+          ["草稿发布", "可把整理后的内容发布到微信公众号草稿箱"],
+          ["工程能力", "Web 工作台、微信草稿接口、主域名路径部署"],
+        ]}
+      />
+      <a className="external-btn" href={links.wechat} target="_blank" rel="noreferrer">
+        访问公众号内容智能体 <ExternalLink size={18} />
+      </a>
+    </DetailShell>
+  );
+}
+
 function ProofPage() {
   const cards = [
     [Award, "一级造价工程师", "工程成本、合约、结算与风险控制资质", asset("/assets/proofs/cost-engineer.jpg")],
@@ -819,15 +993,17 @@ function DetailShell({
   title,
   subtitle,
   children,
+  compact = false,
 }: {
   go: (p: Page) => void;
   label: string;
   title: string;
   subtitle: string;
   children: ReactNode;
+  compact?: boolean;
 }) {
   return (
-    <section className="page-shell detail-page">
+    <section className={`page-shell detail-page${compact ? " detail-page-compact" : ""}`}>
       <button className="back-btn" onClick={() => go("projects")}>
         <ArrowLeft size={16} /> 返回项目
       </button>
@@ -881,3 +1057,4 @@ function FeatureRow({ items }: { items: [string, string][] }) {
 }
 
 export default App;
+
